@@ -1,0 +1,19 @@
+﻿@model Photo
+@{
+    Photo photo = Model;
+}
+
+<div class="card bg-white bg-opacity-25 text-white border-dark" style="width: 18rem;">
+    <img src="@photo.Url" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@photo.Title</h5>
+        <p class="card-text">@photo.Description</p>
+    </div>
+    <div class="card-body">
+        tags here
+    </div>
+    <div class="card-body">
+        <a href="@Url.Action("Details", new{Id = photo.Id})" class="btn btn-primary">Dettagli</a>
+        <a href="#" class="btn btn-success">Modifica</a>
+    </div>
+</div>

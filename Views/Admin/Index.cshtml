@@ -1,0 +1,15 @@
+﻿@model Photo[]
+
+@{
+    ViewData["Title"] = "Home Page";
+    Photo[] photos = Model;
+}
+
+<div class="container d-flex justify-content-center gap-4">
+
+    @foreach(Photo item in photos)
+    {
+        @await Html.PartialAsync("_Card", item)
+    }
+
+</div>

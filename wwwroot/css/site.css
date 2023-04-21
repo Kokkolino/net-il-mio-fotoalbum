@@ -24,8 +24,8 @@ nav *{
 }
 
 footer{
-    display:inline;
-    position:fixed;
+    display:block;
+    position:absolute;
     bottom: 0;
     width: 100%;
     padding: 20px

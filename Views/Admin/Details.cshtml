@@ -1,0 +1,21 @@
+﻿@model Photo
+@{
+    Photo photo = Model;
+    ViewData["Title"] = $"{photo.Title}";
+}
+<div>
+    <h2 class="text-center mb-3 my-5">@photo.Title</h2>
+    <img class="container-fluid" src="@photo.Url"/>
+
+    <div class="px-5 mt-3 d-flex justify-content-between gap-3">
+        <div class="container">
+            <span class="text-white-50">Description</span>
+            <p class="text-white">@photo.Description</p>
+        </div>
+        <div class="container">
+            TAGSS
+        </div>
+
+    </div>
+
+</div>
