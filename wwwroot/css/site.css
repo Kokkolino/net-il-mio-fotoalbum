@@ -15,4 +15,18 @@ html {
 
 body {
   margin-bottom: 60px;
+  min-height: 100vh;
+}
+
+nav *{
+    color: white;
+    
+}
+
+footer{
+    display:inline;
+    position:fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 20px
 }
