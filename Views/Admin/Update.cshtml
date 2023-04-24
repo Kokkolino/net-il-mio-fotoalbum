@@ -1,7 +1,7 @@
 ﻿@model PhotoFormModel
 
-<form method="post" asp-controller="Admin" asp-action="Create">
-    @Html.AntiForgeryToken()
+<form method="post" asp-controller="Admin" asp-action="Update" asp-route-id="@Model.Photo.Id">
+	@Html.AntiForgeryToken()
 
 	@*Title*@
 	<div class="mb-3">
@@ -26,10 +26,19 @@
 
 	@*Checkboxes*@
 	<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-		@foreach(var box in Model.Tags)
+		@foreach (var box in Model.Tags)
 		{
-			<input name="SelectedTags" type="checkbox" class="btn-check" id="@box.Id" value="@box.Id">
-			<label class="btn btn-outline-primary" for="@box.Id">@box.Name</label>
+			if (Model.Photo.Tags.Contains(box))
+			{
+				<input name="SelectedTags" checked type="checkbox" class="btn-check" id="@box.Id" value="@box.Id">
+				<label class="btn btn-outline-primary" for="@box.Id">@box.Name</label>
+			}
+			else
+			{
+				<input name="SelectedTags" type="checkbox" class="btn-check" id="@box.Id" value="@box.Id">
+				<label class="btn btn-outline-primary" for="@box.Id">@box.Name</label>
+
+			}
 		}
 	</div>
 
@@ -41,5 +50,5 @@
 	</div>
 
 	@*submit*@
-	<button type="submit" class="btn btn-dark">Create</button>
+	<button type="submit" class="btn btn-dark">Modifica</button>
 </form>

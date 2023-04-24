@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
     public class AdminController : Controller
     {
+        //Index
         public IActionResult Index()
         {
             using(PhotoContext ctx = new PhotoContext())
@@ -14,7 +16,7 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View(photos);
             }
         }
-
+        //Details
         public IActionResult Details(int id)
         {
             using(PhotoContext ctx = new PhotoContext())
@@ -23,7 +25,7 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View(photo);
             }
         }
-
+        //Create
         [HttpGet]
         public IActionResult Create()
         { 
@@ -46,11 +48,11 @@ namespace net_il_mio_fotoalbum.Controllers
         public IActionResult Create(PhotoFormModel data)
         {
             data.Tags = new List<Tag>();
+
             //Model validation
             if(!ModelState.IsValid)
             {
-
-                var errors = ModelState.Values.SelectMany(x => x.Errors);
+                //var errors = ModelState.Values.SelectMany(x => x.Errors);
                 using(PhotoContext ctx = new PhotoContext())
                 {
                     data.Tags = ctx.Tags.ToList();
@@ -59,33 +61,83 @@ namespace net_il_mio_fotoalbum.Controllers
             }
 
             //New record Photo
-
             Photo record = new Photo();
             record = data.Photo;
 
             if(data.SelectedTags != null || data.SelectedTags.Count() != 0)
             {
-                foreach(int id in data.SelectedTags)
+                using(PhotoContext ctx = new PhotoContext())
                 {
-                    using(PhotoContext ctx = new PhotoContext())
+                    foreach(int id in data.SelectedTags)
                     {
-                        Tag tag = new Tag();
-                        tag = ctx.Tags.Where(t => t.Id == id).First();
+                        Tag tag = ctx.Tags.Where(t => t.Id == id).FirstOrDefault();
                         record.Tags.Add(tag);
                     }
                 }
             }
-
 
             using(PhotoContext ctx = new PhotoContext())
             {
                 ctx.Photos.Add(record);
                 ctx.SaveChanges();
             }
-            
-
             return Redirect("Index");
         }
 
+        //Update
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            PhotoFormModel form = new PhotoFormModel();
+            using(PhotoContext ctx = new PhotoContext())
+            {
+                form.Photo = ctx.Photos.Where(p => p.Id == id).Include(p => p.Tags).FirstOrDefault();
+
+				if (form.Photo != null)
+				{
+                    form.Tags = ctx.Tags.ToList();  
+                    
+                    return View(form);
+				}
+                else
+                {
+                    return NotFound();
+                }
+			}
+
+		}
+
+        [HttpPost]
+        public IActionResult Update (PhotoFormModel form, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                using(PhotoContext ctx = new PhotoContext())
+                {
+					form.Tags = ctx.Tags.ToList();
+				}
+
+				return View(form);
+            }
+            using(PhotoContext ctx = new PhotoContext())
+            {
+                Photo record = ctx.Photos.Where(p => p.Id == id).Include(p => p.Tags).FirstOrDefault();
+                if(record == null) return NotFound();
+
+                record.Title = form.Photo.Title;
+                record.Description = form.Photo.Description;
+                record.Visibility = form.Photo.Visibility;
+                record.Url = form.Photo.Url;
+
+                record.Tags.Clear();
+				foreach (int tagId in form.SelectedTags)
+				{
+                    Tag tag = ctx.Tags.Where(t => t.Id == tagId).FirstOrDefault();
+                    record.Tags.Add(tag);
+			    }
+                ctx.SaveChanges();
+                return RedirectToAction("Index");
+			}
+        }
     }
 }

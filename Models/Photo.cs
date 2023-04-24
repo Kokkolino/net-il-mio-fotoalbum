@@ -6,6 +6,11 @@ namespace net_il_mio_fotoalbum.Models
     [Table("photos")]
     public class Photo
     {
+
+        public Photo()
+        {
+            Tags = new List<Tag>();
+        }
         //attributes
         [Column("id")]
         public int Id { get; set; }
