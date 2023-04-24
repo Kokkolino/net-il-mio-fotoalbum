@@ -15,5 +15,10 @@
     <div class="card-body">
         <a href="@Url.Action("Details", new{Id = photo.Id})" class="btn btn-primary">Dettagli</a>
         <a href="@Url.Action("Update", new{Id = photo.Id})" class="btn btn-success">Modifica</a>
+        
+        <form asp-controller="Admin" asp-action="Delete" asp-route-id="@photo.Id" method="post" class="btn btn-danger mt-2">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="border-0 bg-transparent m-0 p-0">Elimina</button>
+        </form>
     </div>
 </div>

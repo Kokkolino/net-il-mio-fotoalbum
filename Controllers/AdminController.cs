@@ -139,5 +139,19 @@ namespace net_il_mio_fotoalbum.Controllers
                 return RedirectToAction("Index");
 			}
         }
+
+        public IActionResult Delete(int id)
+        {
+            using(PhotoContext ctx = new PhotoContext())
+            {
+                Photo record = ctx.Photos.Where(p => p.Id == id).FirstOrDefault();
+                if(record == null) return NotFound();
+
+                ctx.Photos.Remove(record);
+                ctx.SaveChanges();
+                
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
