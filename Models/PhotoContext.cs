@@ -6,6 +6,7 @@ namespace net_il_mio_fotoalbum.Models
     {
 
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +44,32 @@ namespace net_il_mio_fotoalbum.Models
                 Photos.AddRange(records);
                 SaveChanges();
             }
+
+            if (!Tags.Any())
+            {
+                Tag[] records =
+                {
+                    new Tag()
+                    {
+                        Name = "Urban",
+                    },
+                    new Tag()
+                    {
+                        Name = "Nature",
+                    },
+                    new Tag()
+                    {
+                        Name = "Street",
+                    },
+                    new Tag()
+                    {
+                        Name = "Art",
+                    }
+                };
+
+                Tags.AddRange(records);
+                SaveChanges();
+			}
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿@model PhotoFormModel
+
+@{
+
+}
+
+<form method="post" asp-controller="Admin" asp-action="Create">
+    @Html.AntiForgeryToken()
+
+	@*Title*@
+	<div class="mb-3">
+		<label asp-for="Photo.Title" class="col-form-label">Title</label>
+		<input asp-for="Photo.Title" class="form-control" />
+		<span asp-validation-for="Photo.Title" class="text-danger"></span>
+	</div>
+
+	@*Description*@
+	<div class="mb-3">
+		<label asp-for="Photo.Description" class="col-form-label">Description</label>
+		<textarea asp-for="Photo.Description" class="form-control" placeholder="Put here pizza's description..'"></textarea>
+		<span asp-validation-for="Photo.Description" class="text-danger"></span>
+	</div>
+
+	@*Url*@
+	<div class="mb-3">
+		<label asp-for="Photo.Url" class="col-form-label">Url</label>
+		<input asp-for="Photo.Url" class="form-control" />
+		<span asp-validation-for="Photo.Url" class="text-danger"></span>
+	</div>
+
+	@*Checkboxes*@
+	<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+		@foreach(var box in Model.Tags)
+		{
+			<input name="SelectedTags" type="checkbox" class="btn-check" id="@box.Id" value="@box.Id">
+			<label class="btn btn-outline-primary" for="@box.Id">@box.Name</label>
+		}
+	</div>
+
+	<div class="form-check form-switch">
+		<input class="form-check-input" type="checkbox" asp-for="Photo.Visibility" role="switch">
+		<label class="form-check-label" asp-for="Photo.Visibility">Default switch checkbox input</label>
+		<span asp-validation-for="Photo.Visibility" class="text-danger"></span>
+
+	</div>
+
+	@*submit*@
+	<button type="submit" class="btn btn-dark">Create</button>
+</form>
