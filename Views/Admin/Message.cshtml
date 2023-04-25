@@ -1,0 +1,39 @@
+﻿@model Message[]
+@{
+    ViewData["Title"] = "Messaggi";
+
+    Message[] messages = Model;
+}
+@if(messages.Length > 0)
+{  
+    <table class="table text-white">
+        <thead class="text-white-50">
+            <tr>
+                <th scope="col" class="col-1">#</th>
+                <th scope="col" class="col-2">Nome</th>
+                <th scope="col" class="col-2">Cognome</th>
+                <th scope="col" class="col-2">Email</th>
+                <th scope="col" class="col-5">Messaggio</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        
+       
+
+            @foreach(Message mex in messages)
+            {
+                <tr>
+                    <th scope="row">@mex.Id</th>
+                    <td>@mex.Name</td>
+                    <td>@mex.Surname</td>
+                    <td>@mex.Email</td>
+                    <td>@mex.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else{
+    <h1 class="text-white-50 mt-4">La posta é vuota.</h1>
+}

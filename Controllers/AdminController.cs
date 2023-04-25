@@ -155,5 +155,14 @@ namespace net_il_mio_fotoalbum.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public IActionResult Message()
+        {
+            using(PhotoContext ctx = new PhotoContext())
+            {
+                Message[] messages = ctx.Messages.ToArray();
+                return View(messages);
+            }
+        }
     }
 }

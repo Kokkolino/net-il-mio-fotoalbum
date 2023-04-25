@@ -18,14 +18,18 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="@Url.Action("Create" ,"Admin")">Add Photo</a>
+                        <a class="nav-link text-white" href="@Url.Action("Create" ,"Admin")">Aggiungi Foto</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="@Url.Action("Message" ,"Admin")">Messaggi</a>
+                    </li>
+
                 }
                 else
                 {
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="@Url.Action("Message" ,"User")">Message</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="@Url.Action("Message" ,"User")">Invia Messaggio</a>
+                    </li>
 
                 }
 

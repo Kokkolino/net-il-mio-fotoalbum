@@ -1,6 +1,6 @@
 ﻿//html cards
 const cardIndex = photo => `
-    <div class="card bg-white bg-opacity-25 text-white border-dark" style="width: 18rem;">
+    <div class="card bg-white bg-opacity-25 text-white border-dark px-0 mb-4 col-sm-12" style="width: 18rem;">
     <img src="${photo.url}" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">${photo.title}</h5>
