@@ -72,6 +72,18 @@ namespace net_il_mio_fotoalbum.Models
                 Tags.AddRange(records);
                 SaveChanges();
 			}
+
+            if (!Roles.Any())
+            {
+                var seed = new IdentityRole[]
+                {
+                    new ("Admin"),
+                    new ("User")
+                };
+
+                Roles.AddRange(seed);
+                SaveChanges();
+            }
         }
     }
 }
