@@ -164,5 +164,20 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View(messages);
             }
         }
+
+        public IActionResult DeleteMessage(int id)
+        {
+            using (PhotoContext ctx = new PhotoContext())
+            {
+                Message record = ctx.Messages.Where(m => m.Id == id).FirstOrDefault();
+                if (record == null) return NotFound();
+
+                ctx.Messages.Remove(record);
+                ctx.SaveChanges();
+
+                return RedirectToAction("Message");
+            }
+        }
+
     }
 }

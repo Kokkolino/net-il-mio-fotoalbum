@@ -13,7 +13,9 @@
                 <th scope="col" class="col-2">Nome</th>
                 <th scope="col" class="col-2">Cognome</th>
                 <th scope="col" class="col-2">Email</th>
-                <th scope="col" class="col-5">Messaggio</th>
+                <th scope="col" class="col-4">Messaggio</th>
+                <th scope="col" class="col-1">Delete</th>
+
 
             </tr>
         </thead>
@@ -29,6 +31,15 @@
                     <td>@mex.Surname</td>
                     <td>@mex.Email</td>
                     <td>@mex.Text</td>
+                    <td>
+                        <form asp-controller="Admin" asp-action="DeleteMessage" asp-route-id="@mex.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="border-0 bg-transparent m-0 p-0">
+                                <i class="fa-sharp fa-solid fa-xmark" style="color: #ff0000;"></i>
+                            </button>
+                        </form>
+                    </td>
+
                 </tr>
             }
         </tbody>

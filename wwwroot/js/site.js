@@ -35,7 +35,7 @@ const initIndex = filter => getPhotos(filter)
     });
 
 const getPhotos = title => axios
-    .get('/api/user', title ? { params: { title } } : {})
+    .get('/api/api', title ? { params: { title } } : {})
     .then(res => res.data);
 
 const renderPhotos = photos => {
@@ -50,7 +50,7 @@ function initDetails() {
 }
 
 
-const getPhoto = id => axios.get(`/api/user/${id}`).then(res => res.data)
+const getPhoto = id => axios.get(`/api/api/${id}`).then(res => res.data)
 
 const renderPhoto = photo => {
     const table = document.getElementById("table");
@@ -82,6 +82,6 @@ const getMessage = form => {
     }
 }
 
-const postMessage = message => axios.post("/api/user", message)
+const postMessage = message => axios.post("/api/api", message)
     .then(() => location.href = "/user/index")
     .catch(err => console.log(err));

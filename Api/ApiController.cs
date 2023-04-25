@@ -7,11 +7,11 @@ namespace net_il_mio_fotoalbum.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class ApiController : ControllerBase
     {
         private readonly PhotoContext _ctx;
 
-        public UserController(PhotoContext ctx)
+        public ApiController(PhotoContext ctx)
         {
             _ctx = ctx;
         }
