@@ -5,7 +5,7 @@ using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Api
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -17,23 +17,22 @@ namespace net_il_mio_fotoalbum.Api
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetPhotos([FromQuery] string? title)
         {
-            IQueryable<Photo> photos = _ctx.Photos.Include(p => p.Tags);
+            var photos = _ctx.Photos
+                .Where(p => title == null || p.Title.ToLower().Contains(title.ToLower()))
+                .ToList();
+
             return Ok(photos);
         }
 
-        [HttpGet]
-        public IActionResult Get(string title)
-        {
-            IQueryable<Photo> photos = _ctx.Photos.Where(p => p.Title.ToLower().Contains(title.ToLower()))
-                .Include(p => p.Tags);
-            return Ok(photos);
-        }
-
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            IQueryable<Photo> photo = _ctx.Photos.Where(p => p.Id == id).Include(p => p.Tags);
+            IQueryable<Photo> photo = _ctx.Photos.Where(p => p.Id == id);
+
+            if (photo is null) return NotFound();
+
             return Ok(photo);
         }
     }
