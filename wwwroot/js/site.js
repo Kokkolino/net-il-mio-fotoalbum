@@ -56,3 +56,32 @@ const renderPhoto = photo => {
     const table = document.getElementById("table");
     table.innerHTML = photo.map(cardDetails);
 }
+
+//Message
+const initForm = () => {
+    const form = document.getElementById("form");
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const message = getMessage(form);
+        postMessage(message)
+    });
+}
+
+const getMessage = form => {
+    const name = form.querySelector("#name").value;
+    const surname = form.querySelector("#surname").value;
+    const email = form.querySelector("#email").value;
+    const text = form.querySelector("#text").value;
+
+    return {
+        name,
+        surname,
+        email,
+        text
+    }
+}
+
+const postMessage = message => axios.post("/api/user", message)
+    .then(() => location.href = "/user/index")
+    .catch(err => console.log(err));

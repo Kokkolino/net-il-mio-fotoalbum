@@ -9,6 +9,7 @@ namespace net_il_mio_fotoalbum.Models
 
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

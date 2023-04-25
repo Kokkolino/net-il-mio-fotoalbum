@@ -36,5 +36,13 @@ namespace net_il_mio_fotoalbum.Api
 
             return Ok(photo);
         }
+
+        [HttpPost]
+        public IActionResult Message(Message message)
+        {
+            _ctx.Messages.Add(message);
+            _ctx.SaveChanges();
+            return Ok();
+        }
     }
 }
