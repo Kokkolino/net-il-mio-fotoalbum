@@ -13,5 +13,9 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             return View();
         }
+        public IActionResult Message()
+        {
+            return View();
+        }
     }
 }

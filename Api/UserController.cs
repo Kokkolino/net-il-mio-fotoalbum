@@ -21,6 +21,7 @@ namespace net_il_mio_fotoalbum.Api
         {
             var photos = _ctx.Photos
                 .Where(p => title == null || p.Title.ToLower().Contains(title.ToLower()))
+                .Where(p => p.Visibility)
                 .ToList();
 
             return Ok(photos);
