@@ -6,8 +6,7 @@ const cardIndex = photo => `
         <h5 class="card-title">${photo.title}</h5>
         <p class="card-text">${photo.description}</p>
     </div>
-    <div class="card-body">
-        tags here
+    <div id="tags${photo.id}" class="card-body">
     </div>
     <div class="card-body">
         <a href="/User/Details/${photo.id}" class="btn btn-primary">Dettagli</a>
@@ -23,7 +22,9 @@ const cardDetails = photo => `<h2 class="text-center mb-3 my-5">${photo.title}</
             <p class="text-white">${photo.description}</p>
         </div>
         <div class="container">
-            //TAGS//
+                <span class="text-white-50">Tags</span>
+            <p id="tags" class="text-white"></p>
+
         </div>
 
     </div>`;
@@ -41,6 +42,15 @@ const getPhotos = title => axios
 const renderPhotos = photos => {
     const table = document.getElementById("table");
     table.innerHTML = photos.map(cardIndex).join('');
+    for (i = 0; i < photos.length; i++) {
+
+        var str = `tags${photos[i].id}`
+        const tableTags = document.getElementById(`${str}`)
+        const tags = photos[i].tags
+        tableTags.innerHTML = tags.map(appendTags).join(", ")
+
+    }
+
 }
 
 //Details
@@ -54,7 +64,10 @@ const getPhoto = id => axios.get(`/api/photo/${id}`).then(res => res.data)
 
 const renderPhoto = photo => {
     const table = document.getElementById("table");
-    table.innerHTML = photo.map(cardDetails);
+    table.innerHTML = cardDetails(photo);
+    const tableTags = document.getElementById("tags")
+    const tags = photo.tags
+    tableTags.innerHTML = tags.map(appendTags).join(", ")
 }
 
 //Message
@@ -85,3 +98,5 @@ const getMessage = form => {
 const postMessage = message => axios.post("/api/message", message)
     .then(() => location.href = "/user/index")
     .catch(err => console.log(err));
+
+const appendTags = tag => `<a href="#" class="text-white">#${tag.name}</a>`;

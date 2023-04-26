@@ -36,11 +36,10 @@ namespace net_il_mio_fotoalbum.Api
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            IQueryable<Photo> photo = _ctx.Photos
-                .Where(p => p.Id == id)
-                .Include(p => p.Tags);
-
+            var photo = _ctx.Photos.Include(p => p.Tags).Where(p => p.Id == id).FirstOrDefault();
             if (photo is null) return NotFound();
+
+            foreach (var tag in photo.Tags) tag.Photos = null;
 
             return Ok(photo);
         }
