@@ -3,12 +3,13 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Create" ,"Admin")">Aggiungi Foto</a>
-<a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Tags" ,"Admin")">Nuovi Tags</a>
+<div class="ms-4">
+    <a class="btn btn-outline-success me-3" href="@Url.Action("Create" ,"Admin")">Aggiungi Foto</a>
+    <a class="btn btn-outline-primary " href="@Url.Action("Tags" ,"Admin")">Nuovi Tags</a>
+</div>
 
 <form asp-action="Index">
-        <div class="d-flex col-7 mx-auto">
+        <div class="d-flex offset-2">
             <button class="btn btn-outline-light mx-4 mb-4 d-inline" type="submit">filtra</button>
 
             <input asp-for="@Model.Filter" class="form-control form-control-sm bg-transparent text-white mb-4 col-4" type="text" placeholder="Filtra foto per titolo">

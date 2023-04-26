@@ -13,7 +13,7 @@ const cardIndex = photo => `
     </div>
 </div>`;
 
-const cardDetails = photo => `<h2 class="text-center mb-3 my-5">${photo.title}</h2>
+const cardDetails = photo => `<h2 class="text-center mb-3 text-white my-5">${photo.title}</h2>
     <img class="container-fluid" src="${photo.src}" />
 
     <div class="px-5 mt-3 d-flex justify-content-between gap-3">
