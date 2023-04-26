@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using net_il_mio_fotoalbum.Models;
 
@@ -11,9 +12,11 @@ using net_il_mio_fotoalbum.Models;
 namespace net_il_mio_fotoalbum.Migrations
 {
     [DbContext(typeof(PhotoContext))]
-    partial class PhotoContextModelSnapshot : ModelSnapshot
+    [Migration("20230426131449_PhotoUserId")]
+    partial class PhotoUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,15 +252,15 @@ namespace net_il_mio_fotoalbum.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("email");
 
-                    b.Property<string>("RecipientId")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("recipient_id");
+                        .HasColumnName("name");
 
-                    b.Property<string>("SenderId")
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("sender_id");
+                        .HasColumnName("surname");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -286,10 +289,6 @@ namespace net_il_mio_fotoalbum.Migrations
                         .HasColumnType("varbinary(max)")
                         .HasColumnName("image");
 
-                    b.Property<bool>("Moderate")
-                        .HasColumnType("bit")
-                        .HasColumnName("moderate");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -301,8 +300,8 @@ namespace net_il_mio_fotoalbum.Migrations
                         .HasColumnName("url");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("user_id");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Visibility")
                         .HasColumnType("bit")

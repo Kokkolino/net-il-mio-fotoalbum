@@ -82,17 +82,9 @@ const initForm = () => {
 }
 
 const getMessage = form => {
-    const name = form.querySelector("#name").value;
-    const surname = form.querySelector("#surname").value;
-    const email = form.querySelector("#email").value;
     const text = form.querySelector("#text").value;
 
-    return {
-        name,
-        surname,
-        email,
-        text
-    }
+    return text;
 }
 
 const postMessage = message => axios.post("/api/message", message)

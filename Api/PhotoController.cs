@@ -22,6 +22,7 @@ namespace net_il_mio_fotoalbum.Api
             var photos = _ctx.Photos.Include(p => p.Tags)
                 .Where(p => title == null || p.Title.ToLower().Contains(title.ToLower()))
                 .Where(p => p.Visibility)
+                .Where(p => !p.Moderate)
                 .ToList();
             foreach(var photo in photos)
             {
@@ -36,7 +37,11 @@ namespace net_il_mio_fotoalbum.Api
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var photo = _ctx.Photos.Include(p => p.Tags).Where(p => p.Id == id).FirstOrDefault();
+            var photo = _ctx.Photos
+                .Include(p => p.Tags)
+                .Where(p => p.Id == id)
+                .Where(p => !p.Moderate)
+                .FirstOrDefault();
             if (photo is null) return NotFound();
 
             foreach (var tag in photo.Tags) tag.Photos = null;

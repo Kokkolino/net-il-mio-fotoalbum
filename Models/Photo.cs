@@ -36,6 +36,12 @@ namespace net_il_mio_fotoalbum.Models
 		[Column("visibility")]
         public bool Visibility { get; set; }
 
+        [Column("moderate")]
+        public bool Moderate { get; set; }
+
+        [Column("user_id")]
+        public string? UserId { get; set;}
+
         public List<Tag>? Tags { get; set; } = new List<Tag>();
     }
 }

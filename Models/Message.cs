@@ -8,16 +8,16 @@ namespace net_il_mio_fotoalbum.Models
 		[Column("id")]
 		public int Id { get; set; }
 
-		[Column("name")]
-		public string Name {get; set;}
-
-		[Column("surname")]
-		public string Surname { get; set;}
-
 		[Column("email")]
-		public string Email { get; set;}
+		public string? Email { get; set;}
 
 		[Column("text")]
 		public string Text { get; set;}
+
+		[Column("sender_id")]
+		public string? SenderId { get; set; }
+
+		[Column("recipient_id")]
+		public string? RecipientId { get; set;}
 	}
 }

@@ -1,4 +1,5 @@
-﻿@model Photo
+﻿@using System.Security.Claims;
+@model Photo
 @{
     Photo photo = Model;
 }
@@ -21,11 +22,29 @@
     </div>
     <div class="card-body">
         <a href="@Url.Action("Details", new{Id = photo.Id})" class="btn btn-primary">Dettagli</a>
-        <a href="@Url.Action("Update", new{Id = photo.Id})" class="btn btn-success">Modifica</a>
-        
-        <form asp-controller="Admin" asp-action="Delete" asp-route-id="@photo.Id" method="post" class="btn btn-danger mt-2">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="border-0 bg-transparent m-0 p-0">Elimina</button>
-        </form>
+        @if (photo.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+        {
+            <a href="@Url.Action("Update", new{Id = photo.Id})" class="btn btn-success">Modifica</a>
+            <form asp-controller="Admin" asp-action="Delete" asp-route-id="@photo.Id" method="post" class="btn btn-danger mt-2">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="border-0 bg-transparent m-0 p-0">Elimina</button>
+            </form>
+            if (photo.Moderate)
+            {
+                <p class="text-danger fw-bold">Contenuto moderato dall'amministratore'</p>
+            }
+        }
+        else
+        {
+            if(photo.Moderate){
+                <a href="@Url.Action("Moderate", new{Id = photo.Id})" class="btn btn-success">Unban</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Moderate", new{Id = photo.Id})" class="btn btn-danger">Ban</a>
+            }
+
+        }
+
     </div>
 </div>
