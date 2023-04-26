@@ -14,7 +14,9 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             using(PhotoContext ctx = new PhotoContext())
             {
-                Photo[] photos = ctx.Photos.ToArray();
+                Photo[] photos = ctx.Photos
+                    .Include(p => p.Tags)
+                    .ToArray();
                 return View(photos);
             }
         }
@@ -23,7 +25,7 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             using(PhotoContext ctx = new PhotoContext())
             {
-                Photo photo = ctx.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+                Photo photo = ctx.Photos.Include(p => p.Tags).Where(photo => photo.Id == id).FirstOrDefault();
                 return View(photo);
             }
         }
@@ -62,25 +64,23 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View("Create", data);
             }
 
-            //New record Photo
-            Photo record = new Photo();
-            record = data.Photo;
+            data.SetImageFileFromFormFile();
 
-            if(data.SelectedTags != null || data.SelectedTags.Count() != 0)
+
+            using (PhotoContext ctx = new PhotoContext())
             {
-                using(PhotoContext ctx = new PhotoContext())
+                if (data.SelectedTags != null || data.SelectedTags.Count() != 0)
                 {
-                    foreach(int id in data.SelectedTags)
+                    foreach (int id in data.SelectedTags)
                     {
                         Tag tag = ctx.Tags.Where(t => t.Id == id).FirstOrDefault();
-                        record.Tags.Add(tag);
+                        data.Photo.Tags.Add(tag);
                     }
-                }
-            }
 
-            using(PhotoContext ctx = new PhotoContext())
-            {
-                ctx.Photos.Add(record);
+                }
+                
+
+                ctx.Photos.Add(data.Photo);
                 ctx.SaveChanges();
             }
             return Redirect("Index");
@@ -126,9 +126,12 @@ namespace net_il_mio_fotoalbum.Controllers
                 Photo record = ctx.Photos.Where(p => p.Id == id).Include(p => p.Tags).FirstOrDefault();
                 if(record == null) return NotFound();
 
+                form.SetImageFileFromFormFile();
+
                 record.Title = form.Photo.Title;
                 record.Description = form.Photo.Description;
                 record.Visibility = form.Photo.Visibility;
+                record.Image = form.Photo.Image;
                 record.Url = form.Photo.Url;
 
                 record.Tags.Clear();

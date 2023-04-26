@@ -42,11 +42,18 @@
 		}
 	</div>
 
+	@*Visibility*@
 	<div class="form-check form-switch">
 		<input class="form-check-input" type="checkbox" asp-for="Photo.Visibility" role="switch">
 		<label class="form-check-label" asp-for="Photo.Visibility">Default switch checkbox input</label>
 		<span asp-validation-for="Photo.Visibility" class="text-danger"></span>
 
+	</div>
+
+	@*Upload*@
+	<div class="mb-3">
+		<label asp-for="ImageFormFile" class="form-label">Upload image</label>
+		<input asp-for="ImageFormFile" class="form-control" type="file">
 	</div>
 
 	@*submit*@

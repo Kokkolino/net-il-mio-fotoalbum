@@ -24,11 +24,16 @@ namespace net_il_mio_fotoalbum.Models
 		public string? Description { get; set; }
 
         [Column("url")]
-		[Required(ErrorMessage = "É necessario fornire un url.")]
-
 		public string Url { get; set; }
 
-        [Column("visibility")]
+        [Column("image")]
+        public byte[]? Image { get; set; }
+
+        public string Src => Image is null 
+            ? Url 
+            : $"data:image/png;base64,{Convert.ToBase64String(Image)}";
+
+		[Column("visibility")]
         public bool Visibility { get; set; }
 
         public List<Tag>? Tags { get; set; } = new List<Tag>();

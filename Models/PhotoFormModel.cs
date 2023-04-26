@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 
 namespace net_il_mio_fotoalbum.Models
 {
@@ -12,6 +13,15 @@ namespace net_il_mio_fotoalbum.Models
         [BindProperty]
         public List<int>? SelectedTags { get; set; } = new List<int>();
 
+		//image
+        public IFormFile? ImageFormFile { get; set; }
+		public void SetImageFileFromFormFile()
+		{
+			if (ImageFormFile is null) return;
 
-    }
+			using var stream = new MemoryStream();
+			ImageFormFile!.CopyTo(stream);
+			Photo.Image = stream.ToArray();
+		}
+	}
 }

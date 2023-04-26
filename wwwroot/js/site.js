@@ -1,7 +1,7 @@
 ﻿//html cards
 const cardIndex = photo => `
     <div class="card bg-white bg-opacity-25 text-white border-dark px-0 mb-4 col-sm-12" style="width: 18rem;">
-    <img src="${photo.url}" class="card-img-top" alt="...">
+    <img src="${photo.src}" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">${photo.title}</h5>
         <p class="card-text">${photo.description}</p>
@@ -15,7 +15,7 @@ const cardIndex = photo => `
 </div>`;
 
 const cardDetails = photo => `<h2 class="text-center mb-3 my-5">${photo.title}</h2>
-    <img class="container-fluid" src="${photo.url}" />
+    <img class="container-fluid" src="${photo.src}" />
 
     <div class="px-5 mt-3 d-flex justify-content-between gap-3">
         <div class="container">
@@ -35,8 +35,8 @@ const initIndex = filter => getPhotos(filter)
     });
 
 const getPhotos = title => axios
-    .get('/api/api', title ? { params: { title } } : {})
-    .then(res => res.data);
+    .get('/api/photo', title ? { params: { title } } : {})
+    .then(res => res.data).catch(err => err);
 
 const renderPhotos = photos => {
     const table = document.getElementById("table");
@@ -50,7 +50,7 @@ function initDetails() {
 }
 
 
-const getPhoto = id => axios.get(`/api/api/${id}`).then(res => res.data)
+const getPhoto = id => axios.get(`/api/photo/${id}`).then(res => res.data)
 
 const renderPhoto = photo => {
     const table = document.getElementById("table");
@@ -82,6 +82,6 @@ const getMessage = form => {
     }
 }
 
-const postMessage = message => axios.post("/api/api", message)
+const postMessage = message => axios.post("/api/message", message)
     .then(() => location.href = "/user/index")
     .catch(err => console.log(err));

@@ -4,13 +4,20 @@
 }
 
 <div class="card bg-white bg-opacity-25 text-white border-dark mb-4 col-sm-12" style="width: 18rem;">
-    <img src="@photo.Url" class="card-img-top" alt="...">
+    <img src="@photo.Src" class="card-img-top" alt="...">
     <div class="card-body">
         <h5 class="card-title">@photo.Title</h5>
         <p class="card-text">@photo.Description</p>
     </div>
     <div class="card-body">
-        tags here
+        @if(photo.Tags.Count > 0)
+        {
+            @foreach(var tag in photo.Tags)
+            {
+                <a href="#" class="text-white">#@tag.Name</a>
+                <span> </span>
+            }
+        }
     </div>
     <div class="card-body">
         <a href="@Url.Action("Details", new{Id = photo.Id})" class="btn btn-primary">Dettagli</a>

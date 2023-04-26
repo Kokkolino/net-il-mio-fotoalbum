@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
 
@@ -7,11 +6,11 @@ namespace net_il_mio_fotoalbum.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiController : ControllerBase
+    public class PhotoController : ControllerBase
     {
         private readonly PhotoContext _ctx;
 
-        public ApiController(PhotoContext ctx)
+        public PhotoController(PhotoContext ctx)
         {
             _ctx = ctx;
         }
@@ -19,30 +18,31 @@ namespace net_il_mio_fotoalbum.Api
         [HttpGet]
         public IActionResult GetPhotos([FromQuery] string? title)
         {
-            var photos = _ctx.Photos
+
+            var photos = _ctx.Photos.Include(p => p.Tags)
                 .Where(p => title == null || p.Title.ToLower().Contains(title.ToLower()))
                 .Where(p => p.Visibility)
                 .ToList();
-
+            foreach(var photo in photos)
+            {
+                foreach(var tag in photo.Tags)
+                {
+                    tag.Photos = null;
+                }
+            }
             return Ok(photos);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            IQueryable<Photo> photo = _ctx.Photos.Where(p => p.Id == id);
+            IQueryable<Photo> photo = _ctx.Photos
+                .Where(p => p.Id == id)
+                .Include(p => p.Tags);
 
             if (photo is null) return NotFound();
 
             return Ok(photo);
-        }
-
-        [HttpPost]
-        public IActionResult Message(Message message)
-        {
-            _ctx.Messages.Add(message);
-            _ctx.SaveChanges();
-            return Ok();
         }
     }
 }
