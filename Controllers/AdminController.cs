@@ -10,16 +10,21 @@ namespace net_il_mio_fotoalbum.Controllers
     public class AdminController : Controller
     {
         //Index
-        public IActionResult Index()
+        public IActionResult Index(IndexFilter? data)
         {
+            if (data == null) data = new IndexFilter();
             using(PhotoContext ctx = new PhotoContext())
             {
-                Photo[] photos = ctx.Photos
+                if (data.Filter == null) data.Filter = "";
+                List<Photo> photos = ctx.Photos
                     .Include(p => p.Tags)
-                    .ToArray();
-                return View(photos);
+                    .Where(p => p.Title.Contains(data.Filter))
+                    .ToList();
+                data.Photos = photos;
+                return View(data);
             }
         }
+
         //Details
         public IActionResult Details(int id)
         {
@@ -29,6 +34,7 @@ namespace net_il_mio_fotoalbum.Controllers
                 return View(photo);
             }
         }
+
         //Create
         [HttpGet]
         public IActionResult Create()

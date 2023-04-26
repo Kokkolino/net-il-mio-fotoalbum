@@ -1,18 +1,24 @@
-﻿@model Photo[]
+﻿@model IndexFilter
 
 @{
     ViewData["Title"] = "Home Page";
-    Photo[] photos = Model;
 }
 
 <a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Create" ,"Admin")">Aggiungi Foto</a>
 <a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Tags" ,"Admin")">Nuovi Tags</a>
 
+<form asp-action="Index">
+        <div class="d-flex col-7 mx-auto">
+            <button class="btn btn-outline-light mx-4 mb-4 d-inline" type="submit">filtra</button>
+
+            <input asp-for="@Model.Filter" class="form-control form-control-sm bg-transparent text-white mb-4 col-4" type="text" placeholder="Filtra foto per titolo">
+        </div>
+    </form>
 
 
 <div class="container d-flex justify-content-center flex-wrap gap-4">
 
-    @foreach(Photo item in photos)
+    @foreach(Photo item in Model.Photos)
     {
         @await Html.PartialAsync("_Card", item)
     }
