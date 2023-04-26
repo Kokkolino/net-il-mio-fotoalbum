@@ -5,6 +5,11 @@
     Photo[] photos = Model;
 }
 
+<a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Create" ,"Admin")">Aggiungi Foto</a>
+<a class="btn btn-outline-light mx-4 mb-4" href="@Url.Action("Tags" ,"Admin")">Nuovi Tags</a>
+
+
+
 <div class="container d-flex justify-content-center flex-wrap gap-4">
 
     @foreach(Photo item in photos)

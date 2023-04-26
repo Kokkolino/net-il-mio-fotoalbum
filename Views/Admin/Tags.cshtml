@@ -1,0 +1,18 @@
+﻿@model Tag
+@{
+	Tag data = Model;
+}
+
+<form method="post" asp-controller="Admin" asp-action="Tags" class="text-white-50">
+	@Html.AntiForgeryToken()
+
+	@*Title*@
+	<div class="mb-3">
+		<label asp-for="@data.Name" class="col-form-label">Nome Tag</label>
+		<input asp-for="@data.Name" class="form-control" />
+		<span asp-validation-for="@data.Name" class="text-danger"></span>
+	</div>
+
+	@*submit*@
+	<button type="submit" class="btn btn-dark">Create</button>
+</form>

@@ -182,5 +182,30 @@ namespace net_il_mio_fotoalbum.Controllers
             }
         }
 
-    }
+        [HttpGet]
+        public IActionResult Tags()
+        {
+            Tag data = new Tag();
+            return View(data);
+        }
+
+        [HttpPost]
+		public IActionResult Tags(Tag data)
+		{
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+
+            using(PhotoContext ctx = new PhotoContext())
+            {
+                ctx.Tags.Add(data);
+                ctx.SaveChanges();
+            }
+
+			return Redirect("Index");
+		}
+
+
+	}
 }
