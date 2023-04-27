@@ -78,13 +78,35 @@ namespace net_il_mio_fotoalbum.Models
             {
                 var seed = new IdentityRole[]
                 {
-                    new ("Admin"),
-                    new ("User")
+                    new ("ADMIN"),
+                    new ("USER")
                 };
 
                 Roles.AddRange(seed);
                 SaveChanges();
             }
+
+            if (!Users.Any(u => u.Email == "admin@admin.com")
+                && !UserRoles.Any())
+            {
+                var admin = Users.First(u => u.Email == "admin@admin.com");
+
+                var adminRole = Roles.First(r => r.Name == "ADMIN");
+
+                var seed = new IdentityUserRole<string>[]
+                {
+                    new()
+                    {
+                        UserId = admin.Id,
+                        RoleId = adminRole.Id
+                    }
+                };
+
+                UserRoles.AddRange(seed);
+            }
+
+            SaveChanges();
         }
     }
+    
 }
