@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using net_il_mio_fotoalbum.Models;
+using System.Security.Principal;
 
 namespace net_il_mio_fotoalbum.Api
 {
@@ -15,11 +16,18 @@ namespace net_il_mio_fotoalbum.Api
             _ctx = ctx;
         }
 
+        internal bool AuthCheck()
+        {
+            return User.Identity.IsAuthenticated;
+        }
 
         [HttpGet]
         public IActionResult GetPhotos([FromQuery] string? title)
         {
-
+            if (!AuthCheck())
+            {
+                return Unauthorized();
+            }
             var photos = _ctx.Photos.Include(p => p.Tags)
                 .Where(p => title == null || p.Title.ToLower().Contains(title.ToLower()))
                 .Where(p => p.Visibility)
@@ -38,6 +46,12 @@ namespace net_il_mio_fotoalbum.Api
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            if (!AuthCheck())
+            {
+                return Unauthorized();
+            }
+
+
             var photo = _ctx.Photos
                 .Include(p => p.Tags)
                 .Where(p => p.Id == id)
@@ -48,6 +62,8 @@ namespace net_il_mio_fotoalbum.Api
             foreach (var tag in photo.Tags) tag.Photos = null;
 
             return Ok(photo);
+
+
         }
     }
 }
