@@ -16,12 +16,19 @@ namespace net_il_mio_fotoalbum.Api
             _ctx = ctx;
         }
 
-
-        [HttpPost]
-        public IActionResult Message(string text)
+        [HttpGet("comment/{id}")]
+        public IActionResult Get(int id)
         {
-            Message message = new Message();
-            message.Text = text;
+            List<Message> messages = _ctx.Messages
+                .Where(m => m.PhotoId == id)
+                .ToList();
+
+            return Ok(messages);
+        }
+
+        [HttpPost("help")]
+        public IActionResult Help(Message message)
+        {
             message.SenderId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             message.RecipientId = "d9b60ff9-9750-49c4-8e8c-34fb56e70163";
             message.Email = User.FindFirst(ClaimTypes.Email).Value;
@@ -29,6 +36,19 @@ namespace net_il_mio_fotoalbum.Api
             _ctx.Messages.Add(message);
             _ctx.SaveChanges();
             return Ok();
+        }
+
+        [HttpPost("comment/{id}")]
+        public IActionResult Comment(int id ,Message message)
+        {
+            message.SenderId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            message.PhotoId = id;
+            message.Email = User.FindFirst(ClaimTypes.Email).Value;
+
+            _ctx.Messages.Add(message);
+            _ctx.SaveChanges();
+            return Ok();
+
         }
     }
 }

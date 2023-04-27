@@ -29,6 +29,11 @@ const cardDetails = photo => `<h2 class="text-center mb-3 text-white my-5">${pho
 
     </div>`;
 
+const cardComment = comment => `<div class="border rounded p-1 border-dark-subtle my-2">
+                    <h5 class="text-white-50">${comment.email}</h4>
+                    <p class="text-white">${comment.text}</p>
+                </div>`;
+
 //Index
 const initIndex = filter => getPhotos(filter)
     .then(photos => {
@@ -56,18 +61,31 @@ const renderPhotos = photos => {
 //Details
 function initDetails() {
     var id = Number(location.pathname.split("/")[3])
-    getPhoto(id).then(photo => renderPhoto(photo))
+    getPhoto(id).then(photo => renderPhoto(photo));
+    initComments(id);
 }
 
+const initComments = id => getComments(id).then(comments => renderComments(comments));
 
-const getPhoto = id => axios.get(`/api/photo/${id}`).then(res => res.data)
+
+const getComments = id => axios.get(`/api/message/comment/${id}`).then(res => res.data);
+
+
+const getPhoto = id => axios.get(`/api/photo/${id}`).then(res => res.data);
 
 const renderPhoto = photo => {
     const table = document.getElementById("table");
-    table.innerHTML = cardDetails(photo);
+    table.innerHTML += cardDetails(photo);
     const tableTags = document.getElementById("tags")
     const tags = photo.tags
     tableTags.innerHTML = tags.map(appendTags).join(", ")
+}
+
+const renderComments = comments => {
+    const table = document.getElementById("comments");
+    for (i = 0; i < comments.length; i++) {
+        table.innerHTML += cardComment(comments[i]);
+    }
 }
 
 //Message
@@ -84,11 +102,26 @@ const initForm = () => {
 const getMessage = form => {
     const text = form.querySelector("#text").value;
 
-    return text;
+    return {
+        text
+    };
 }
 
-const postMessage = message => axios.post("/api/message", message)
+const postMessage = res => axios.post("/api/message/help", res)
     .then(() => location.href = "/user/index")
     .catch(err => console.log(err));
 
 const appendTags = tag => `<a href="#" class="text-white">#${tag.name}</a>`;
+
+//details send comment
+function sendComment() {
+    var id = Number(location.pathname.split("/")[3]);
+    var form = document.getElementById("comment");
+
+    var data = {
+        text: form.value
+    }
+
+    axios.post(`/api/message/comment/${id}`, data).then(location.reload())
+
+} 

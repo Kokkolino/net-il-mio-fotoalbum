@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Web.Helpers;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -15,6 +17,7 @@ namespace net_il_mio_fotoalbum.Controllers
         }
         public IActionResult Message()
         {
+
             return View();
         }
     }

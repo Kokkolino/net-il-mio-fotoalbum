@@ -17,7 +17,15 @@ namespace net_il_mio_fotoalbum.Models
 		[Column("sender_id")]
 		public string? SenderId { get; set; }
 
+		[Column("photo_id")]
+		public int? PhotoId { get; set; }
+
 		[Column("recipient_id")]
 		public string? RecipientId { get; set;}
+
+
+		public bool Comment => PhotoId is null 
+			? false 
+			: true;
 	}
 }
