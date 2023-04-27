@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Web.Helpers;
 
@@ -15,6 +16,8 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             return View();
         }
+
+        [Authorize]
         public IActionResult Message()
         {
 

@@ -194,7 +194,7 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             using(PhotoContext ctx = new PhotoContext())
             {
-                Message[] messages = ctx.Messages.ToArray();
+                Message[] messages = ctx.Messages.Where(m => m.RecipientId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToArray();
                 return View(messages);
             }
         }
