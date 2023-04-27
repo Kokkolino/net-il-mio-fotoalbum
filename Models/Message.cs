@@ -19,6 +19,7 @@ namespace net_il_mio_fotoalbum.Models
 
 		[Column("photo_id")]
 		public int? PhotoId { get; set; }
+		public Photo? Photo { get; set; }
 
 		[Column("recipient_id")]
 		public string? RecipientId { get; set;}

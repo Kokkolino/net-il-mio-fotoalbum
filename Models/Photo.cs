@@ -42,6 +42,7 @@ namespace net_il_mio_fotoalbum.Models
         [Column("user_id")]
         public string? UserId { get; set;}
 
+        public List<Message> Messages { get; set; }
         public List<Tag>? Tags { get; set; } = new List<Tag>();
     }
 }

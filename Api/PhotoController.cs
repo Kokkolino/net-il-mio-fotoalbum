@@ -15,6 +15,7 @@ namespace net_il_mio_fotoalbum.Api
             _ctx = ctx;
         }
 
+
         [HttpGet]
         public IActionResult GetPhotos([FromQuery] string? title)
         {
